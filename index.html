@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>无限级联动下拉列表jquery插件</title>
+	<link rel="stylesheet" href="lib/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+	<h1>欢迎您访问无限级联动下拉列表jquery插件</h1>
+	<div id="trade"></div>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<div id="district"></div>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<div id="district-default"></div>
+	<script type="text/javascript" src="lib/jquery/3.3.1/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.plugin.linkage.js"></script>
+	<script type="text/javascript">
+		// 请自行编写服务器端代码
+		// 服务器端返回数据类型为json
+		$("#trade").linkage({
+			url:"http://localhost/index/service/trade.html",
+			root_father: "0",
+			default_values:['O','O81','O811','O8111'],
+			container_css:"",	// container_css是默认值是form-inline，此处定义为空白则表单控件会竖向排列
+			value_key:"trade_id",
+			text_key:"trade_name"
+		});
+
+		$("#district").linkage({
+			url: "http://localhost/index/service/district.html",	// 请求路径，数据需要向后台查询，查询形式为http://localhost/get_district?father_id=86查询父级id为86的所有district数据
+			default_values: [],	// 初始ID值
+			split: ",",             //分割符
+			root_father: "0",	// 最高级的父ID
+			father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
+			level: -1,	// 加载级别，小于等0表示加载到底
+			select_css: "form-control",	// 样式名称，默认为bootstrap的form-control
+			container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
+			value_key: "district_id",	// <option value="id">name</option>
+			text_key: "district_name",
+			hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
+			span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
+		});
+
+		$("#district-default").linkage({
+			url: "http://localhost/index/service/district.html",	// 请求路径，数据需要向后台查询，查询形式为http://localhost/get_district?father_id=86查询父级id为86的所有district数据
+			default_values: ['210000','210100','210104'],	// 初始ID值
+			split: ",",             //分割符
+			root_father: "86",	// 最高级的父ID
+			father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
+			level: -1,	// 加载级别，小于等0表示加载到底
+			select_css: "form-control",	// 样式名称，默认为bootstrap的form-control
+			container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
+			value_key: "district_id",	// <option value="id">name</option>
+			text_key: "district_name",
+			hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
+			span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
+		});
+	</script>
+</body>
+</html>
