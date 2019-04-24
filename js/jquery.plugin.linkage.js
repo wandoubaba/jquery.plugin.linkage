@@ -188,9 +188,8 @@
 				var value_array = new Array();
 				var text_array = new Array();
 				$("select", container).each(function() {
+					value = $(this).val();
 					if($(this).val()!="-1") {
-						// arr.push($(this).val());	// 获取container下每个select对象的值并添加到数组arr中
-						value = $(this).val();
 						value_array.push($(this).val());
 						text = $(this).find("option:selected").text();
 						text_array.push($(this).find("option:selected").text());
@@ -201,10 +200,10 @@
 				$("input[name='"+container.attr("id")+"_value_array"+"']",container).val(value_array.join(','));
 				$("input[name='"+container.attr("id")+"_text"+"']",container).val(text);
 				$("input[name='"+container.attr("id")+"_text_array"+"']",container).val(text_array.join(','));
-				console.log($("input[name='"+container.attr("id")+"_value"+"']",container).val());
-				console.log($("input[name='"+container.attr("id")+"_value_array"+"']",container).val());
-				console.log($("input[name='"+container.attr("id")+"_text"+"']",container).val());
-				console.log($("input[name='"+container.attr("id")+"_text_array"+"']",container).val());
+				// console.log($("input[name='"+container.attr("id")+"_value"+"']",container).val());
+				// console.log($("input[name='"+container.attr("id")+"_value_array"+"']",container).val());
+				// console.log($("input[name='"+container.attr("id")+"_text"+"']",container).val());
+				// console.log($("input[name='"+container.attr("id")+"_text_array"+"']",container).val());
 			}
 		});
 	}
