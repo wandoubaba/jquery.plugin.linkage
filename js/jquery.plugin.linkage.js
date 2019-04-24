@@ -149,7 +149,13 @@
 			 * @return {[type]}           [description]
 			 */
 			function _onchange(container, select, id) {
-				var nextAll = select.nextAll("select");
+				if(settings.span_css) {
+					// select外如果有span的话，则操作后面的span
+					var nextAll = select.parent().nextAll("span");
+				} else {
+					// select外没有span的话，则操作后面的select
+					var nextAll = select.nextAll("select");
+				}
 				// 如果当前select对象的值是空或-1，则将其后面的select对象全部移除
 				if(!id || id=="-1" || nextAll.length>0) {
 					nextAll.remove();
