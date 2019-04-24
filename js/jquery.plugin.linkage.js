@@ -1,5 +1,13 @@
 /**
  * 通过ajax调用后台url读取数据库数据生成无限级联下拉菜单
+ * 程序会自动生成4个hidden控件name分别为：
+ * container.attr("id")+"_value"：记录最后一个select的value
+ * container.attr("id")+"_value_array"：记录所有select的value，用英文逗号分隔
+ * container.attr("id")+"_text"：记录最后一个select选择的text
+ * container.attr("id")+"_text_array"：记录所有select选择的text，用英文逗号分隔
+ * 所以，
+ * 要求container必须要有id属性
+ * 要求所有选项的text中不能存在英文逗号
  * 使用方法：
  *  HTML：
  *  <div id="container"></div>
@@ -7,7 +15,6 @@
  * 	$("#container").linkage({
  *   	url: "{:url('index/service/district')}",	// 请求路径
  *   	default_values: [],	// 初始ID值
- *   	split: ",",             //分割符
  *   	root_father: "0",	// 最高级的父ID
  *   	father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
  *   	level: -1,	// 加载级别，小于等0表示加载到底
@@ -15,9 +22,9 @@
  *   	container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
  *   	value_key: "district_id",	// <option value="id">name</option>
  *   	text_key: "district_name",
- *   	hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
  *   	span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
  * });
+ *
  */
 ;(function($) {
 	$.fn.linkage = function(options) {
@@ -25,7 +32,6 @@
 		var settings = {
 			url: "/index/service/district",	// 请求路径
 			default_values: [],	// 初始ID值
-			split: ",",             //分割符
 			root_father: "0",	// 最高级的父ID
 			father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
 			level: -1,	// 加载级别，小于等0表示加载到底
@@ -33,7 +39,6 @@
 			container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
 			value_key: "district_id",	// <option value="id">name</option>
 			text_key: "district_name",
-			hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
 			span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
 		}
 		// 合并参数
@@ -54,7 +59,10 @@
 			function init(container, root_father, default_values) {
 				$(container).addClass(settings.container_css);
 				// 创建隐藏域，赋初始值
-				var _input = $("<input type='hidden' name='"+settings.hidden_name+"'/>").appendTo(container).val(settings.default_values);
+				var _input = $("<input type='hidden' name='"+container.attr("id")+"_value"+"'/>").appendTo(container).val(settings.default_values);
+				var _input = $("<input type='hidden' name='"+container.attr("id")+"_value_array"+"'/>").appendTo(container).val(settings.default_values);
+				var _input = $("<input type='hidden' name='"+container.attr("id")+"_text"+"'/>").appendTo(container).val(settings.default_values);
+				var _input = $("<input type='hidden' name='"+container.attr("id")+"_text_array"+"'/>").appendTo(container).val(settings.default_values);
 				createSelect(container, root_father, default_values);
 			}
 
@@ -170,15 +178,33 @@
 			 * @return {[type]}           [description]
 			 */
 			function saveVal(container) {
-				var arr = new Array();
+				// 定义4个hidden，name分别是：
+				// container.attr("id")+"_value"：记录最后一个select的value
+				// container.attr("id")+"_value_array"：记录所有select的value
+				// container.attr("id")+"_text"：记录最后一个select的text
+				// container.attr("id")+"_text_array"：记录所有select的text
+				var value = "";
+				var text = "";
+				var value_array = new Array();
+				var text_array = new Array();
 				$("select", container).each(function() {
 					if($(this).val()!="-1") {
-						arr.push($(this).val());	// 获取container下每个select对象的值并添加到数组arr中
+						// arr.push($(this).val());	// 获取container下每个select对象的值并添加到数组arr中
+						value = $(this).val();
+						value_array.push($(this).val());
+						text = $(this).find("option:selected").text();
+						text_array.push($(this).find("option:selected").text());
 					}
 				});
 				// 为隐藏域对象赋值
-				$("input[name='"+settings.hidden_name+"']",container).val(arr.join(settings.split));
-				console.log($("input[name='"+settings.hidden_name+"']",container).val());
+				$("input[name='"+container.attr("id")+"_value"+"']",container).val(value);
+				$("input[name='"+container.attr("id")+"_value_array"+"']",container).val(value_array.join(','));
+				$("input[name='"+container.attr("id")+"_text"+"']",container).val(text);
+				$("input[name='"+container.attr("id")+"_text_array"+"']",container).val(text_array.join(','));
+				console.log($("input[name='"+container.attr("id")+"_value"+"']",container).val());
+				console.log($("input[name='"+container.attr("id")+"_value_array"+"']",container).val());
+				console.log($("input[name='"+container.attr("id")+"_text"+"']",container).val());
+				console.log($("input[name='"+container.attr("id")+"_text_array"+"']",container).val());
 			}
 		});
 	}
