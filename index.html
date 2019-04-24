@@ -37,7 +37,6 @@
 		$("#district").linkage({
 			url: "http://localhost/index/service/district.html",	// 请求路径，数据需要向后台查询，查询形式为http://localhost/get_district?father_id=86查询父级id为86的所有district数据
 			default_values: [],	// 初始ID值
-			split: ",",             //分割符
 			root_father: "0",	// 最高级的父ID
 			father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
 			level: -1,	// 加载级别，小于等0表示加载到底
@@ -45,14 +44,12 @@
 			container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
 			value_key: "district_id",	// <option value="id">name</option>
 			text_key: "district_name",
-			hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
 			span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
 		});
 
 		$("#district-default").linkage({
 			url: "http://localhost/index/service/district.html",	// 请求路径，数据需要向后台查询，查询形式为http://localhost/get_district?father_id=86查询父级id为86的所有district数据
 			default_values: ['210000','210100','210104'],	// 初始ID值
-			split: ",",             //分割符
 			root_father: "86",	// 最高级的父ID
 			father_keyname: "father_id",	// 查询时父ID参数对应的键名，默认为father_id
 			level: -1,	// 加载级别，小于等0表示加载到底
@@ -60,7 +57,6 @@
 			container_css: "form-inline",	// 容器样式名称，默认为bootstrap的form-inline
 			value_key: "district_id",	// <option value="id">name</option>
 			text_key: "district_name",
-			hidden_name: "id_array",	// 隐藏域的name属性，默认为id_array
 			span_css: "",	// 如果要在select外层包一层span则定义span的css样式名称，如h-ui的span_css: "select-box"
 		});
 	</script>
