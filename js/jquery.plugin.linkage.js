@@ -138,7 +138,7 @@
 			 * @param {[type]} data      JSON格式数据
 			 */
 			function addOptions(container, select, data) {
-				select.append($('<option value="-1">请选择</option>'));
+				select.append($('<option>请选择</option>'));
 				for(var i=0; i<data.length; i++) {
 					select.append($('<option value="'+data[i][settings.value_key]+'">'+data[i][settings.text_key]+'</option>'));
 				}
